@@ -70,11 +70,10 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
 
 
     override fun onDialogPositiveClick(dialog: DialogFragment, transaction: Transaction) {
-        transaction.idAccount = account?.id
-
-        account?.total = (transaction.value ?: 0) + (account?.total ?: 0)
-        accountBalance?.text = "$${account?.total ?: 0}"
+        transaction.idAccount=account?.id?:-1
         dbOperation(this) { db -> db.transactionDao().insertTransaction(transaction) }
+        account?.total = (account?.total?:0) + (transaction.value?:0)
+        accountBalance?.text = "$${account?.total ?: 0}"
 
         transactions.add(transaction)
         recyclerView?.adapter?.notifyItemInserted(transactions.size)
@@ -88,7 +87,5 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
         calculateBalance()
     }
 
-    override fun onDialogNegativeClick(dialog: DialogFragment) {
-
-    }
+    override fun onDialogNegativeClick(dialog: DialogFragment) = Unit
 }

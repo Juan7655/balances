@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.juandavid.balances.R
 import com.juandavid.balances.models.Transaction
 
-class NewTransactionFragment : DialogFragment() {
+class NewTransactionFragment() : DialogFragment() {
     private lateinit var listener: NewTransactionListener
 
     interface NewTransactionListener {

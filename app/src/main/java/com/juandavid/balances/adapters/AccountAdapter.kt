@@ -32,11 +32,13 @@ class AccountAdapter(private val values: MutableList<Account>, private val liste
             tvAccountName = itemView.findViewById(R.id.text_account_name)
             tvresult = itemView.findViewById(R.id.text_account_value)
             itemView.setOnClickListener { listener.onMessageClick(adapterPosition) }
+            itemView.setOnLongClickListener { listener.onDeleteItemSelected(adapterPosition) }
         }
     }
 
     interface NewAccountListener {
         fun onMessageClick(position: Int)
+        fun onDeleteItemSelected(position: Int): Boolean
     }
 
 }
