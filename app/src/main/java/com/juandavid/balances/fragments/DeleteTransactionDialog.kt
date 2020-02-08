@@ -13,6 +13,7 @@ class DeleteTransactionDialog(private val position: Int) : DialogFragment() {
     interface DeleteTransactionListener {
         fun onDeleteDialogPositiveClick(dialog: DialogFragment, position: Int)
         fun onDialogNegativeClick(dialog: DialogFragment)
+        fun onDeleteItemSelected(position: Int)
     }
 
     override fun onAttach(context: Context) {
@@ -28,10 +29,9 @@ class DeleteTransactionDialog(private val position: Int) : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
-            val inflater = requireActivity().layoutInflater
 
-            builder.setMessage("Create new Account")
-                .setView(inflater.inflate(R.layout.dialog_new_account, null))
+            builder.setMessage("Delete transaction")
+                .setMessage("Are you sure you want to delete this transaction?")
                 .setPositiveButton("Yes") { _, _ ->
                     listener.onDeleteDialogPositiveClick(this, position)
                 }.setNegativeButton("No") { _, _ ->

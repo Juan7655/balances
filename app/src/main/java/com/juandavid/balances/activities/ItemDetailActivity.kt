@@ -21,34 +21,39 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
     DeleteTransactionDialog.DeleteTransactionListener {
 
     private var account: Account? = null
-    private var myText2: RecyclerView? = null
+    private var recyclerView: RecyclerView? = null
     private var transactions: MutableList<Transaction> = mutableListOf()
-    private var myText: TextView? = null
+    private var accountBalance: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detail)
         setSupportActionBar(detail_toolbar)
 
-        myText = findViewById(R.id.transaction_description_item)
-        myText2 = findViewById(R.id.transactions)
+        accountBalance = findViewById(R.id.transaction_description_item)
+        recyclerView = findViewById(R.id.transactions)
         val idAccount: Int = intent.getIntExtra("idAccount", -1)
-        myText2?.layoutManager = LinearLayoutManager(this)
+        recyclerView?.layoutManager = LinearLayoutManager(this)
 
-        account = dbOperation(this) { db ->db.accountDao().findById(idAccount)}
-
-        transactions = dbOperation(this) { db ->db.transactionDao().getAccountTransactions(account?.id ?: -1)}.toMutableList()
-        myText2?.adapter = TransactionAdapter(transactions)
-        account?.total = transactions.sumBy { t -> t.value ?: 0 }
-
+        account = dbOperation(this) { db -> db.accountDao().findById(idAccount) }
         title = account?.name
-        myText?.text = "$${account?.total ?: 0}"
+
+        calculateBalance()
+        recyclerView?.adapter = TransactionAdapter(transactions, this)
 
         fab.setOnClickListener {
             NewTransactionFragment().showNow(supportFragmentManager, "Create new transaction")
         }
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    private fun calculateBalance(){
+        transactions = dbOperation(this) { db ->
+            db.transactionDao().getAccountTransactions(account?.id ?: -1)
+        }.toMutableList()
+        account?.total = transactions.sumBy { t -> t.value ?: 0 }
+        accountBalance?.text = "$${account?.total ?: 0}"
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -60,21 +65,27 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
             else -> super.onOptionsItemSelected(item)
         }
 
+    override fun onDeleteItemSelected(position: Int) =
+        DeleteTransactionDialog(position).showNow(supportFragmentManager, "DeleteTransaction")
+
+
     override fun onDialogPositiveClick(dialog: DialogFragment, transaction: Transaction) {
         transaction.idAccount = account?.id
 
         account?.total = (transaction.value ?: 0) + (account?.total ?: 0)
-        myText?.text = "$${account?.total ?: 0}"
-        dbOperation(this) { db ->db.transactionDao().insertTransaction(transaction)}
+        accountBalance?.text = "$${account?.total ?: 0}"
+        dbOperation(this) { db -> db.transactionDao().insertTransaction(transaction) }
 
         transactions.add(transaction)
-        myText2?.adapter?.notifyItemInserted(transactions.size)
+        recyclerView?.adapter?.notifyItemInserted(transactions.size)
     }
 
-    override fun onDeleteDialogPositiveClick(dialog: DialogFragment, position:Int) {
-        dbOperation(this) { db ->db.transactionDao().delete(transactions[position])}
+    override fun onDeleteDialogPositiveClick(dialog: DialogFragment, position: Int) {
+        dbOperation(this) { db -> db.transactionDao().delete(transactions[position]) }
         transactions.removeAt(position)
-        myText2?.adapter?.notifyItemRemoved(position)
+        recyclerView?.adapter?.notifyItemRemoved(position)
+
+        calculateBalance()
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
