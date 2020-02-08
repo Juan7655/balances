@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.juandavid.balances.R
 
 class DeleteTransactionDialog(private val position: Int) : DialogFragment() {
     private lateinit var listener: DeleteTransactionListener
@@ -25,7 +24,6 @@ class DeleteTransactionDialog(private val position: Int) : DialogFragment() {
         }
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -34,9 +32,7 @@ class DeleteTransactionDialog(private val position: Int) : DialogFragment() {
                 .setMessage("Are you sure you want to delete this transaction?")
                 .setPositiveButton("Yes") { _, _ ->
                     listener.onDeleteDialogPositiveClick(this, position)
-                }.setNegativeButton("No") { _, _ ->
-                    listener.onDialogNegativeClick(this)
-                }
+                }.setNegativeButton("No") { _, _ -> listener.onDialogNegativeClick(this) }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

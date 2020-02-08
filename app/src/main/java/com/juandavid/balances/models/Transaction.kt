@@ -23,4 +23,3 @@ data class Transaction(
 ) {
     constructor(value:Int, description: String) : this(null, value, description, idAccount = null)
 }
-

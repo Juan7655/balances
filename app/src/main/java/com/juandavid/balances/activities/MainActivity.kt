@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), AccountAdapter.NewAccountListener,
     NewAccountDialogFragment.NewAccountListener, DeleteAccountListener {
 
-    private var accounts: MutableList<Account> = arrayListOf()
-    private var recyclerView: RecyclerView? = null
+    private var accounts: MutableList<Account> = mutableListOf()
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,9 +29,7 @@ class MainActivity : AppCompatActivity(), AccountAdapter.NewAccountListener,
         setSupportActionBar(toolbar)
 
         recyclerView = findViewById(R.id.accounts)
-        recyclerView?.layoutManager = LinearLayoutManager(this)
-
-
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
         fab.setOnClickListener {
             NewAccountDialogFragment().showNow(supportFragmentManager, "Create new account")
@@ -43,7 +41,7 @@ class MainActivity : AppCompatActivity(), AccountAdapter.NewAccountListener,
 
         accounts = dbOperation(this) { db -> db.accountDao().getAll()}.toMutableList()
         accounts.map(::calculateAccountTotal)
-        recyclerView?.adapter = AccountAdapter(accounts, this)
+        recyclerView.adapter = AccountAdapter(accounts, this)
     }
 
     private fun calculateAccountTotal(account: Account): Account {
@@ -80,13 +78,13 @@ class MainActivity : AppCompatActivity(), AccountAdapter.NewAccountListener,
         dbOperation(this) { db ->  db.accountDao().insertAll(newAccount)}
 
         accounts.add(newAccount)
-        recyclerView?.adapter?.notifyItemInserted(accounts.size - 1)
+        recyclerView.adapter?.notifyItemInserted(accounts.size - 1)
     }
 
     override fun onDeleteDialogPositiveClick(dialog: DialogFragment, position: Int) {
         dbOperation(this) { db -> db.accountDao().delete(accounts[position]) }
         accounts.removeAt(position)
-        recyclerView?.adapter?.notifyItemRemoved(position)
+        recyclerView.adapter?.notifyItemRemoved(position)
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) = Unit

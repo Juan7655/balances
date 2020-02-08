@@ -26,7 +26,6 @@ class NewAccountDialogFragment : DialogFragment() {
         }
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -37,9 +36,7 @@ class NewAccountDialogFragment : DialogFragment() {
                 .setPositiveButton("Yes") { _, _ ->
                     val input: EditText? = this.dialog?.new_account_name
                     listener.onDialogPositiveClick(this, input?.text.toString())
-                }.setNegativeButton("No") { _, _ ->
-                    listener.onDialogNegativeClick(this)
-                }
+                }.setNegativeButton("No") { _, _ -> listener.onDialogNegativeClick(this) }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

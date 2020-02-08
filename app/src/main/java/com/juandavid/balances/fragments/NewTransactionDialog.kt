@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import com.juandavid.balances.R
 import com.juandavid.balances.models.Transaction
 
-class NewTransactionFragment() : DialogFragment() {
+class NewTransactionFragment : DialogFragment() {
     private lateinit var listener: NewTransactionListener
 
     interface NewTransactionListener {
@@ -25,7 +25,6 @@ class NewTransactionFragment() : DialogFragment() {
             throw ClassCastException("$context must implement NewTransactionListener")
         }
     }
-
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
@@ -45,9 +44,7 @@ class NewTransactionFragment() : DialogFragment() {
                     )
 
                     listener.onDialogPositiveClick(this, transaction)
-                }.setNegativeButton("No") { _, _ ->
-                    listener.onDialogNegativeClick(this)
-                }
+                }.setNegativeButton("No") { _, _ -> listener.onDialogNegativeClick(this) }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }
