@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Balances</string>
+    <string name="action_settings">Settings</string>
+    <string name="account_icon">Account icon</string>
+    <string name="title_item_list">Items</string>
+    <string name="price_text">Value</string>
+    <string name="transaction_description">Description</string>
+    <string name="transaction_date">Date</string>
+    <string name="new_account">account name</string>
+</resources>
