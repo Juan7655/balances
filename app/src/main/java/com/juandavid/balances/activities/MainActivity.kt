@@ -75,7 +75,8 @@ class MainActivity : AppCompatActivity(), AccountAdapter.NewAccountListener,
 
     override fun onDialogPositiveClick(dialog: DialogFragment, accountName: String) {
         val newAccount = Account(id = null, name = accountName, total = 0)
-        dbOperation(this) { db ->  db.accountDao().insertAll(newAccount)}
+        val dbAccount = dbOperation(this) { db ->  db.accountDao().insertAll(newAccount)}[0]
+        newAccount.id = dbAccount.toInt()
 
         accounts.add(newAccount)
         recyclerView.adapter?.notifyItemInserted(accounts.size - 1)

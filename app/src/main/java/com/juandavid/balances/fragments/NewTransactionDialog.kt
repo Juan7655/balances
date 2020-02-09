@@ -3,6 +3,7 @@ package com.juandavid.balances.fragments
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.widget.CheckBox
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -37,9 +38,13 @@ class NewTransactionFragment : DialogFragment() {
                     val value: EditText? = this.dialog?.findViewById(R.id.transaction_value)
                     val description: EditText? =
                         this.dialog?.findViewById(R.id.transaction_description)
+                    val splitCheckbox: CheckBox? =
+                        this.dialog?.findViewById(R.id.split_transaction_checkbox)
+
+                    val factor: Int = if (splitCheckbox?.isChecked == true) 2 else 1
 
                     val transaction = Transaction(
-                        value = Integer.valueOf(value?.text.toString()),
+                        value = Integer.valueOf(value?.text.toString()) / factor,
                         description = description?.text.toString()
                     )
 

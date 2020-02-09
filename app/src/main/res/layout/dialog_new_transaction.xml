@@ -31,4 +31,10 @@
         android:hint="@string/transaction_description"
         android:autofillHints="@string/transaction_description"
         android:inputType="text"/>
+
+    <CheckBox
+        android:id="@+id/split_transaction_checkbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/split_checkbox" />
 </LinearLayout>
