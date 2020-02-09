@@ -10,7 +10,7 @@ import java.time.ZoneOffset
 class Converters {
     @TypeConverter
     fun fromTimestamp(value: Long?): LocalDate? {
-        return Instant.ofEpochMilli(value?:-1).atZone(ZoneId.systemDefault()).toLocalDate()
+        return Instant.ofEpochSecond(value?:-1).atZone(ZoneId.systemDefault()).toLocalDate()
     }
 
     @TypeConverter
