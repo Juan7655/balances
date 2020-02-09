@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.juandavid.balances.R
 import com.juandavid.balances.fragments.DeleteTransactionDialog.DeleteTransactionListener
 import com.juandavid.balances.models.Transaction
+import java.time.format.DateTimeFormatter
 
 
 class TransactionAdapter(
@@ -26,7 +27,7 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvText.text = values[position].description
         holder.tvContent.text = "$${values[position].value}"
-        holder.tvDate.text = values[position].date.toString()
+        holder.tvDate.text = values[position].date.format(DateTimeFormatter.ofPattern("dd-MM-YYYY"))
     }
 
     class ViewHolder(itemView: View, listener: DeleteTransactionListener) :

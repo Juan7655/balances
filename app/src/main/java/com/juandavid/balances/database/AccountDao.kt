@@ -12,7 +12,7 @@ interface AccountDao {
     fun findById(idAccount: Int): Account
 
     @Insert
-    fun insertAll(vararg accounts: Account)
+    fun insertAll(vararg accounts: Account): List<Long>
 
     @Delete
     fun delete(user: Account)
