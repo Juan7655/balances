@@ -19,24 +19,24 @@ class AccountAdapter(private val values: MutableList<Account>, private val liste
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvAccountName?.text = values[position].name
-        holder.tvresult?.text = "$${values[position].total}"
+        holder.tvAccountName.text = values[position].name
+        holder.tvresult.text = "$${values[position].total}"
     }
 
     class ViewHolder(itemView: View, listener: NewAccountListener) :
         RecyclerView.ViewHolder(itemView) {
-        var tvAccountName: TextView? = null
-        var tvresult: TextView? = null
+        var tvAccountName: TextView = itemView.findViewById(R.id.text_account_name)
+        var tvresult: TextView = itemView.findViewById(R.id.text_account_value)
 
         init {
-            tvAccountName = itemView.findViewById(R.id.text_account_name)
-            tvresult = itemView.findViewById(R.id.text_account_value)
             itemView.setOnClickListener { listener.onMessageClick(adapterPosition) }
+            itemView.setOnLongClickListener { listener.onDeleteItemSelected(adapterPosition) }
         }
     }
 
     interface NewAccountListener {
         fun onMessageClick(position: Int)
+        fun onDeleteItemSelected(position: Int): Boolean
     }
 
 }

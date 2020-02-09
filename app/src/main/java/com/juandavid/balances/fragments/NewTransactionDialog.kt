@@ -26,7 +26,6 @@ class NewTransactionFragment : DialogFragment() {
         }
     }
 
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
@@ -45,9 +44,7 @@ class NewTransactionFragment : DialogFragment() {
                     )
 
                     listener.onDialogPositiveClick(this, transaction)
-                }.setNegativeButton("No") { _, _ ->
-                    listener.onDialogNegativeClick(this)
-                }
+                }.setNegativeButton("No") { _, _ -> listener.onDialogNegativeClick(this) }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

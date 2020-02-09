@@ -10,7 +10,10 @@ import com.juandavid.balances.fragments.DeleteTransactionDialog.DeleteTransactio
 import com.juandavid.balances.models.Transaction
 
 
-class TransactionAdapter(private val values: MutableList<Transaction>, private val listener: DeleteTransactionListener) :
+class TransactionAdapter(
+    private val values: MutableList<Transaction>,
+    private val listener: DeleteTransactionListener
+) :
     RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
     override fun getItemCount(): Int = values.size
 
@@ -21,21 +24,18 @@ class TransactionAdapter(private val values: MutableList<Transaction>, private v
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvText?.text = values[position].description
-        holder.tvContent?.text = "$${values[position].value}"
-        holder.tvDate?.text = values[position].date.toString()
+        holder.tvText.text = values[position].description
+        holder.tvContent.text = "$${values[position].value}"
+        holder.tvDate.text = values[position].date.toString()
     }
 
     class ViewHolder(itemView: View, listener: DeleteTransactionListener) :
         RecyclerView.ViewHolder(itemView) {
-        var tvText: TextView? = null
-        var tvContent: TextView? = null
-        var tvDate: TextView? = null
+        var tvText: TextView = itemView.findViewById(R.id.transaction_description_item)
+        var tvContent: TextView = itemView.findViewById(R.id.transaction_value_item)
+        var tvDate: TextView = itemView.findViewById(R.id.transaction_date_item)
 
         init {
-            tvText = itemView.findViewById(R.id.transaction_description_item)
-            tvContent = itemView.findViewById(R.id.transaction_value_item)
-            tvDate= itemView.findViewById(R.id.transaction_date_item)
             itemView.setOnLongClickListener {
                 listener.onDeleteItemSelected(position = adapterPosition)
                 true

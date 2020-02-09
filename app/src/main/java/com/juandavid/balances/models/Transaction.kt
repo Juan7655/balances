@@ -21,7 +21,5 @@ data class Transaction(
     var date: LocalDate = LocalDate.now(),
     var idAccount: Int?
 ) {
-    constructor() : this(null, null, null, idAccount = null)
     constructor(value:Int, description: String) : this(null, value, description, idAccount = null)
 }
-
