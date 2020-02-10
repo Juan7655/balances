@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.chip.Chip
 import com.juandavid.balances.R
 import kotlinx.android.synthetic.main.dialog_new_account.*
 
@@ -31,12 +32,22 @@ class NewAccountDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             val inflater = requireActivity().layoutInflater
 
-            builder.setMessage("Create new Account")
-                .setView(inflater.inflate(R.layout.dialog_new_account, null))
-                .setPositiveButton("Yes") { _, _ ->
-                    val input: EditText? = this.dialog?.new_account_name
-                    listener.onDialogPositiveClick(this, input?.text.toString())
-                }.setNegativeButton("No") { _, _ -> listener.onDialogNegativeClick(this) }
+            val inflatedView = inflater.inflate(R.layout.dialog_new_account, null)
+            val btnYes: Chip? = inflatedView.findViewById(R.id.chip_yes_new_account)
+            val btnNo: Chip? = inflatedView.findViewById(R.id.chip_no_new_account)
+
+            builder.setView(inflatedView)
+                .setCustomTitle(inflater.inflate(R.layout.dialog_title_new_account, null))
+
+            btnYes?.setOnClickListener {
+                val input: EditText? = this.dialog?.new_account_name
+                listener.onDialogPositiveClick(this, input?.text.toString())
+                dialog?.dismiss()
+            }
+            btnNo?.setOnClickListener {
+                listener.onDialogNegativeClick(this)
+                dialog?.dismiss()
+            }
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
     }

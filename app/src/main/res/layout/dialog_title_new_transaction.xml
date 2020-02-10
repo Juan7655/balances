@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryLight">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/text_margin"
+        android:layout_weight="4"
+        android:text="Create new Transaction"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"/>
+
+    <ImageView
+        android:src="@drawable/ic_local_atm_black_24dp"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_margin="@dimen/text_margin"
+        android:contentDescription="@string/app_name"
+        android:layout_weight="1"/>
+</LinearLayout>
