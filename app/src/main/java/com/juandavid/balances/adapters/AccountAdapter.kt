@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.juandavid.balances.R
 import com.juandavid.balances.models.Account
+import com.juandavid.balances.utils.Format.currency
 
 
 class AccountAdapter(private val values: MutableList<Account>, private val listener: NewAccountListener) : RecyclerView.Adapter<AccountAdapter.ViewHolder>() {
@@ -20,7 +21,7 @@ class AccountAdapter(private val values: MutableList<Account>, private val liste
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvAccountName.text = values[position].name
-        holder.tvresult.text = "$${values[position].total}"
+        holder.tvresult.text = currency(values[position].total?:-1)
     }
 
     class ViewHolder(itemView: View, listener: NewAccountListener) :
