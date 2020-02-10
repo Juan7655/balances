@@ -15,6 +15,7 @@ import com.juandavid.balances.fragments.DeleteTransactionDialog
 import com.juandavid.balances.fragments.NewTransactionFragment
 import com.juandavid.balances.models.Account
 import com.juandavid.balances.models.Transaction
+import com.juandavid.balances.utils.Format.currency
 import kotlinx.android.synthetic.main.activity_item_detail.*
 
 class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransactionListener,
@@ -55,7 +56,7 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
             db.transactionDao().getAccountTransactions(account?.id ?: -1)
         }.toMutableList()
         account?.total = transactions.sumBy { t -> t.value ?: 0 }
-        accountBalance.text = "$${account?.total ?: 0}"
+        accountBalance.text = currency(account?.total ?: 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =
@@ -75,7 +76,7 @@ class ItemDetailActivity : AppCompatActivity(), NewTransactionFragment.NewTransa
         transaction.idAccount = account?.id ?: -1
         dbOperation(this) { db -> db.transactionDao().insertTransaction(transaction) }
         account?.total = (account?.total ?: 0) + (transaction.value ?: 0)
-        accountBalance.text = "$${account?.total ?: 0}"
+        accountBalance.text = currency(account?.total ?: 0)
 
         transactions.add(transaction)
         recyclerView.adapter?.notifyItemInserted(transactions.size)
